@@ -26,15 +26,7 @@ public class JsonUtils {
 
     private static final String TAG = JsonUtils.class.getSimpleName();
 
-    private int mRawJsonFile;
-    private Resources mResources;
-
-    public JsonUtils(Context context, int rawJsonFile) {
-        this.mRawJsonFile = rawJsonFile;
-        this.mResources = context.getResources();
-    }
-
-    public static void readRecipesFromResource(Context context) throws IOException, JSONException {
+    public static List<Recipe> getRecipesFromJson(Context context) throws IOException, JSONException {
 
         //converting the JSON raw file into a String value so Java can read it
         StringBuilder builder = new StringBuilder();
@@ -48,18 +40,21 @@ public class JsonUtils {
 
         //Parse resource into key/values
         final String rawJson = builder.toString();
-        Log.i(TAG, rawJson);
 
+        //grab the top level JSONArray
         JSONArray recipesArray = new JSONArray(rawJson);
 
+        //instantiate a new List. This will store all of the Recipe Objects
         List<Recipe> recipes = new ArrayList<>();
 
         for (int i = 0; i < recipesArray.length(); i++) {
 
+            //grab the JSONObject which holds the individual Recipe key/values
             JSONObject recipeObject = recipesArray.getJSONObject(i);
 
             int recipeId = recipeObject.optInt("id");
             String recipeName = recipeObject.optString("name");
+            int servings = recipeObject.optInt("servings");
 
             List<Ingredient> ingredients = null;
             try {
@@ -72,18 +67,18 @@ public class JsonUtils {
             try {
                 steps = getStepsFromJson(recipeObject);
             } catch (JSONException e) {
-                e.printStackTrace();
+                Log.e(TAG, "Steps from JSON Error: ", e);
             }
 
+            Log.i(TAG, "Recipe name " + recipeName);
 
-
-            Log.i(TAG, "recipe name " + recipeName);
-
-            Recipe recipe = new Recipe(recipeId, recipeName, ingredients, steps, 0);
+            //build up our Recipe Objects with the values from the JSON resource
+            Recipe recipe = new Recipe(recipeId, recipeName, ingredients, steps, servings);
             recipes.add(recipe);
 
         }
 
+        return recipes;
 
     }
 
