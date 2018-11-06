@@ -1,6 +1,5 @@
 package com.studentproject.bakingappudacity.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.studentproject.bakingappudacity.R;
-import com.studentproject.bakingappudacity.data.Step;
+import com.studentproject.bakingappudacity.database.models.Step;
 import com.studentproject.bakingappudacity.view_holders.StepViewHolder;
 
 import java.util.List;
@@ -50,7 +49,6 @@ public class StepAdapter extends RecyclerView.Adapter<StepViewHolder> {
 
         final Step step = mSteps.get(position);
 
-        stepViewHolder.mStepNumber.setText(String.valueOf(step.getId() + 1));
         stepViewHolder.mStepShortDesc.setText(step.getShortDescription());
 
         stepViewHolder.itemView.setOnClickListener(new View.OnClickListener() {

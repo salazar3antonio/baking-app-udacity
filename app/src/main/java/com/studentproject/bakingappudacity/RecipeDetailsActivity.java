@@ -7,19 +7,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
+import com.studentproject.bakingappudacity.adapters.RecipeAdapter;
 import com.studentproject.bakingappudacity.adapters.StepAdapter;
-import com.studentproject.bakingappudacity.data.Step;
+import com.studentproject.bakingappudacity.database.models.Recipe;
+import com.studentproject.bakingappudacity.database.models.Step;
 
 public class RecipeDetailsActivity extends AppCompatActivity implements StepAdapter.OnStepClickListener {
 
     public static final String STEP_EXTRA = "step_id_extra";
-    public static final String STEP_FRAGMENT_TAG = "step_fragment_tag";
 
     private FragmentManager mFragmentManager;
+
+    private boolean mIsTwoPane;
+    private Recipe mRecipe;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,19 +33,26 @@ public class RecipeDetailsActivity extends AppCompatActivity implements StepAdap
         //receive the Recipe Object data from the Intent Extras that launched this activity
         //create bundle and pass to the RecipeDetailsFragment.newInstance(BUNDLE)
 
+        mIsTwoPane = findViewById(R.id.ll_recipe_details) != null;
+
         RecipeDetailsFragment recipeDetails = RecipeDetailsFragment.newInstance();
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
+
+        if (bundle != null) {
+            mRecipe = bundle.getParcelable(RecipeAdapter.RECIPE_EXTRA);
+            actionBar.setTitle(mRecipe.getName());
+        }
+
         recipeDetails.setArguments(bundle);
 
         //here we will host the RecipeDetailsFragment
         mFragmentManager = getSupportFragmentManager();
         //pass the Recipe object as a bundle to the fragment
-        mFragmentManager.beginTransaction().replace(R.id.fl_recipe_detials, recipeDetails).commit();
+        mFragmentManager.beginTransaction().replace(R.id.fl_recipe_container, recipeDetails).commit();
 
     }
-
 
     @Override
     public void onStepClicked(Step step) {
@@ -55,14 +63,19 @@ public class RecipeDetailsActivity extends AppCompatActivity implements StepAdap
         bundle.putParcelable(STEP_EXTRA, step);
         stepDetailsFragment.setArguments(bundle);
 
-        //this is where we will inflate the new StepDetailsFragment
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fl_recipe_detials, stepDetailsFragment);
+
+        if (mIsTwoPane) {
+            fragmentTransaction.replace(R.id.fl_step_container, stepDetailsFragment);
+        } else {
+            //this is where we will inflate the new StepDetailsFragment
+            fragmentTransaction.replace(R.id.fl_recipe_container, stepDetailsFragment);
+        }
+
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
     }
-
 
 
 }

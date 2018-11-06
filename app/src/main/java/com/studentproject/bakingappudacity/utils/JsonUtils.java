@@ -1,24 +1,16 @@
 package com.studentproject.bakingappudacity.utils;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.studentproject.bakingappudacity.R;
-import com.studentproject.bakingappudacity.data.Ingredient;
-import com.studentproject.bakingappudacity.data.Recipe;
-import com.studentproject.bakingappudacity.data.Step;
+import com.studentproject.bakingappudacity.database.models.Ingredient;
+import com.studentproject.bakingappudacity.database.models.Recipe;
+import com.studentproject.bakingappudacity.database.models.Step;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,31 +18,18 @@ public class JsonUtils {
 
     private static final String TAG = JsonUtils.class.getSimpleName();
 
-    public static List<Recipe> getRecipesFromJson(Context context) throws IOException, JSONException {
-
-        //converting the JSON raw file into a String value so Java can read it
-        StringBuilder builder = new StringBuilder();
-        InputStream in = context.getResources().openRawResource(R.raw.recipes);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-        String line;
-        while ((line = reader.readLine()) != null) {
-            builder.append(line);
-        }
-
-        //Parse resource into key/values
-        final String rawJson = builder.toString();
-
-        //grab the top level JSONArray
-        JSONArray recipesArray = new JSONArray(rawJson);
+    public static List<Recipe> getRecipesFromJson(String jsonResponse) throws IOException, JSONException {
 
         //instantiate a new List. This will store all of the Recipe Objects
         List<Recipe> recipes = new ArrayList<>();
 
-        for (int i = 0; i < recipesArray.length(); i++) {
+        //grab the top level JSONArray
+        JSONArray recipesJsonArray = new JSONArray(jsonResponse);
+
+        for (int i = 0; i < recipesJsonArray.length(); i++) {
 
             //grab the JSONObject which holds the individual Recipe key/values
-            JSONObject recipeObject = recipesArray.getJSONObject(i);
+            JSONObject recipeObject = recipesJsonArray.getJSONObject(i);
 
             int recipeId = recipeObject.optInt("id");
             String recipeName = recipeObject.optString("name");

@@ -9,15 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.studentproject.bakingappudacity.adapters.RecipeAdapter;
 import com.studentproject.bakingappudacity.adapters.StepAdapter;
-import com.studentproject.bakingappudacity.data.Ingredient;
-import com.studentproject.bakingappudacity.data.Recipe;
-import com.studentproject.bakingappudacity.data.Step;
+import com.studentproject.bakingappudacity.database.models.Ingredient;
+import com.studentproject.bakingappudacity.database.models.Recipe;
+import com.studentproject.bakingappudacity.database.models.Step;
 
 import java.util.List;
 
@@ -56,6 +54,7 @@ public class RecipeDetailsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        // TODO: 11/4/2018 make recipeView scroll. Currently when in Landscape your can't read Steps
         View recipeView = inflater.inflate(R.layout.fragment_recipe_details, container, false);
 
         mIngredientsList = recipeView.findViewById(R.id.tv_ingredients_list);
