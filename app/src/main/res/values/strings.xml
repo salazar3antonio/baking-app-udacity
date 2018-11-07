@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Baking App</string>
+    <string name="empty_widget_view">No recipes to display</string>
+</resources>

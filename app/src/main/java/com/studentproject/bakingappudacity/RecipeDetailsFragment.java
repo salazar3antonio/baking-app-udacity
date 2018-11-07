@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.studentproject.bakingappudacity.adapters.IngredientAdapter;
 import com.studentproject.bakingappudacity.adapters.RecipeAdapter;
 import com.studentproject.bakingappudacity.adapters.StepAdapter;
 import com.studentproject.bakingappudacity.database.models.Ingredient;
@@ -22,8 +23,8 @@ import java.util.List;
 public class RecipeDetailsFragment extends Fragment {
 
     private Recipe mRecipe;
-    private TextView mIngredientsList;
     private RecyclerView mStepsRecyclerView;
+    private RecyclerView mIngredientsRecyclerView;
 
 
     public static RecipeDetailsFragment newInstance() {
@@ -54,24 +55,17 @@ public class RecipeDetailsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        // TODO: 11/4/2018 make recipeView scroll. Currently when in Landscape your can't read Steps
         View recipeView = inflater.inflate(R.layout.fragment_recipe_details, container, false);
 
-        mIngredientsList = recipeView.findViewById(R.id.tv_ingredients_list);
         mStepsRecyclerView = recipeView.findViewById(R.id.rv_steps);
+        mIngredientsRecyclerView = recipeView.findViewById(R.id.rv_ingredients);
 
         List<Ingredient> ingredients = mRecipe.getIngredients();
         List<Step> steps = mRecipe.getSteps();
 
-        for (Ingredient ingredient : ingredients) {
-
-            int quantity = ingredient.getQuantity();
-            String measure = ingredient.getMeasure();
-            String ingredientName = ingredient.getIngredient();
-
-            mIngredientsList.append(quantity + " " + measure + " " + ingredientName + "\n");
-
-        }
+        IngredientAdapter ingredientAdapter = new IngredientAdapter(getContext(), ingredients);
+        mIngredientsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mIngredientsRecyclerView.setAdapter(ingredientAdapter);
 
         StepAdapter stepAdapter = new StepAdapter(getContext(), steps);
         mStepsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

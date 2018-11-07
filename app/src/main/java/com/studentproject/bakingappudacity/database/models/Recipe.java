@@ -1,30 +1,54 @@
-package com.studentproject.bakingappudacity.data;
+package com.studentproject.bakingappudacity.database.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.studentproject.bakingappudacity.database.Converters;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
+
+@Entity(tableName = "recipes_table")
 public class Recipe implements Parcelable {
 
+    @PrimaryKey(autoGenerate = true)
     private int id;
+    private int recipeId;
     private String name;
-    private List<Ingredient> ingredients = null;
-    private List<Step> steps = null;
+    @TypeConverters(Converters.class)
+    private List<Ingredient> ingredients;
+    @TypeConverters(Converters.class)
+    private List<Step> steps;
     private int servings;
     private String image;
 
-    public Recipe(int id, String name, List<Ingredient> ingredients, List<Step> steps, int servings) {
+    public Recipe(int id, int recipeId, String name, List<Ingredient> ingredients, List<Step> steps, int servings, String image) {
         this.id = id;
+        this.recipeId = recipeId;
+        this.name = name;
+        this.ingredients = ingredients;
+        this.steps = steps;
+        this.servings = servings;
+        this.image = image;
+    }
+
+    @Ignore
+    public Recipe(int recipeId, String name, List<Ingredient> ingredients, List<Step> steps, int servings) {
+        this.recipeId = recipeId;
         this.name = name;
         this.ingredients = ingredients;
         this.steps = steps;
         this.servings = servings;
     }
 
+    @Ignore
     public Recipe(Parcel in) {
-        id = in.readInt();
+        recipeId = in.readInt();
         name = in.readString();
         ingredients = new ArrayList<>();
         in.readList(ingredients, Ingredient.class.getClassLoader());
@@ -40,6 +64,14 @@ public class Recipe implements Parcelable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
     }
 
     public String getName() {
@@ -101,7 +133,7 @@ public class Recipe implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
+        dest.writeInt(recipeId);
         dest.writeString(name);
         dest.writeList(ingredients);
         dest.writeList(steps);

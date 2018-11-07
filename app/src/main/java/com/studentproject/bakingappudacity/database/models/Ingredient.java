@@ -1,4 +1,4 @@
-package com.studentproject.bakingappudacity.data;
+package com.studentproject.bakingappudacity.database.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -43,6 +43,17 @@ public class Ingredient implements Parcelable {
 
     public void setIngredient(String ingredient) {
         this.ingredient = ingredient;
+    }
+
+    public String getFullIngredient() {
+
+        int quantity = getQuantity();
+        String measure = getMeasure();
+        String ingredient = getIngredient();
+
+        return String.valueOf(quantity) + " " + measure + " " + ingredient;
+
+
     }
 
     public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {

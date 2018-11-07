@@ -33,7 +33,7 @@ public abstract class RecipeDatabase extends RoomDatabase {
         return sInstance;
     }
 
-    public abstract RecipeDao movieDao();
+    public abstract RecipeDao recipeDao();
 
 
 

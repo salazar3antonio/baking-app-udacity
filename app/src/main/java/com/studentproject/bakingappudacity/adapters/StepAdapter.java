@@ -35,7 +35,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepViewHolder> {
     @Override
     public StepViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_step, viewGroup, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.list_item_step, viewGroup, false);
 
         //assign the callback to the context that was passed in
         mStepClickCallback = (OnStepClickListener) mContext;
@@ -57,8 +57,6 @@ public class StepAdapter extends RecyclerView.Adapter<StepViewHolder> {
                 mStepClickCallback.onStepClicked(step);
             }
         });
-
-
 
     }
 

@@ -22,8 +22,7 @@ public class RecipeViewModel extends AndroidViewModel {
         super(application);
         // get instance of the DB
         RecipeDatabase recipeDatabase = RecipeDatabase.getsInstance(application.getApplicationContext());
-        Log.i(TAG, "Actively retrieving the tasks from the DataBase");
-        allRecipes = recipeDatabase.movieDao().allRecipes();
+        allRecipes = recipeDatabase.recipeDao().allRecipesAsLiveData();
     }
 
     public LiveData<List<Recipe>> getAllRecipes() {

@@ -1,9 +1,7 @@
-package com.studentproject.bakingappudacity.data;
+package com.studentproject.bakingappudacity.database.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.util.List;
 
 public class Step implements Parcelable {
 
