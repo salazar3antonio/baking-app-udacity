@@ -20,12 +20,17 @@ import com.studentproject.bakingappudacity.database.models.Recipe;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivityFragment extends Fragment {
 
     private static final String TAG = MainActivityFragment.class.getSimpleName();
 
     private RecipeAdapter mRecipeAdapter;
-    private RecyclerView mRecyclerView;
+
+    @BindView(R.id.rv_recipes)
+    RecyclerView mRecyclerView;
 
     public static MainActivityFragment newInstance() {
         return new MainActivityFragment();
@@ -46,9 +51,9 @@ public class MainActivityFragment extends Fragment {
         //Inflate the Fragment View that holds the RecyclerView to display the list of Recipe Objects
         View view = inflater.inflate(R.layout.fragment_recipes, container, false);
 
+        ButterKnife.bind(this, view);
+
         boolean isSw600Dp = view.findViewById(R.id.ll_grid) != null;
-        //this is the Recipe RecyclerView that inside of the Fragment View
-        mRecyclerView = view.findViewById(R.id.rv_recipes);
 
         if (isSw600Dp) {
             //use GridLayout for tablets sw600dp

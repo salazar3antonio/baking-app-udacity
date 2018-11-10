@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.studentproject.bakingappudacity.adapters.IngredientAdapter;
 import com.studentproject.bakingappudacity.adapters.RecipeAdapter;
@@ -21,21 +20,26 @@ import com.studentproject.bakingappudacity.database.models.Step;
 
 import java.util.List;
 
-import static com.studentproject.bakingappudacity.StepDetailsDialogFragment.*;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+import static com.studentproject.bakingappudacity.StepDetailsDialogFragment.STEP_DETAILS_DIALOG_FRAGMENT_TAG;
 
 public class RecipeDetailsFragment extends Fragment {
 
     public static final String RECIPE_DETAILS_FRAGMENT_TAG = "recipe_details_fragment_tag";
 
     private Recipe mRecipe;
-    private RecyclerView mStepsRecyclerView;
-    private RecyclerView mIngredientsRecyclerView;
+    @BindView(R.id.rv_steps)
+    RecyclerView mStepsRecyclerView;
+    @BindView(R.id.rv_ingredients)
+    RecyclerView mIngredientsRecyclerView;
 
 
     public static RecipeDetailsFragment newInstance() {
-        
+
         Bundle args = new Bundle();
-        
+
         RecipeDetailsFragment fragment = new RecipeDetailsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -62,8 +66,7 @@ public class RecipeDetailsFragment extends Fragment {
 
         View recipeView = inflater.inflate(R.layout.fragment_recipe_details, container, false);
 
-        mStepsRecyclerView = recipeView.findViewById(R.id.rv_steps);
-        mIngredientsRecyclerView = recipeView.findViewById(R.id.rv_ingredients);
+        ButterKnife.bind(this, recipeView);
 
         List<Ingredient> ingredients = mRecipe.getIngredients();
         List<Step> steps = mRecipe.getSteps();
@@ -75,7 +78,7 @@ public class RecipeDetailsFragment extends Fragment {
         StepAdapter stepAdapter = new StepAdapter(getContext(), steps);
         mStepsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mStepsRecyclerView.setAdapter(stepAdapter);
-        
+
         return recipeView;
     }
 

@@ -28,6 +28,9 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.studentproject.bakingappudacity.database.models.Step;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.studentproject.bakingappudacity.RecipeDetailsActivity.*;
 
 public class StepDetailsFragment extends Fragment {
@@ -38,7 +41,8 @@ public class StepDetailsFragment extends Fragment {
     //this Fragment will hold the Step details. Includes the video and Step descriptions.
 
     private Step mStep;
-    private TextView mStepDesc;
+    @BindView(R.id.tv_step_description)
+    TextView mStepDesc;
     private SimpleExoPlayer mExoPlayer;
     private SimpleExoPlayerView mExoPlayerView;
     private long mCurrentPlayerPosition;
@@ -72,6 +76,8 @@ public class StepDetailsFragment extends Fragment {
 
         View stepView = inflater.inflate(R.layout.fragment_step_details, container, false);
 
+        ButterKnife.bind(this, stepView);
+
         mExoPlayerView = stepView.findViewById(R.id.epv_step_video);
 
         if (mStep.getVideoUrl().isEmpty()) {
@@ -80,7 +86,6 @@ public class StepDetailsFragment extends Fragment {
             initExoPlayer(Uri.parse(mStep.getVideoUrl()));
         }
 
-        mStepDesc = stepView.findViewById(R.id.tv_step_description);
         mStepDesc.setText(mStep.getDescription());
 
         return stepView;

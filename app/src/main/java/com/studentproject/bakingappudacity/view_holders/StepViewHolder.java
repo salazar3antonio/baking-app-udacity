@@ -7,14 +7,17 @@ import android.widget.TextView;
 
 import com.studentproject.bakingappudacity.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class StepViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView mStepShortDesc;
+    public @BindView(R.id.tv_step_short_desc) TextView mStepShortDesc;
 
     public StepViewHolder(@NonNull View itemView) {
         super(itemView);
 
-        mStepShortDesc = itemView.findViewById(R.id.tv_step_short_desc);
+        ButterKnife.bind(this, itemView);
 
     }
 

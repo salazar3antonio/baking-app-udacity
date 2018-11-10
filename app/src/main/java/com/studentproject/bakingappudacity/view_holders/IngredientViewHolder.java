@@ -7,14 +7,17 @@ import android.widget.CheckBox;
 
 import com.studentproject.bakingappudacity.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class IngredientViewHolder extends ViewHolder {
 
-    public CheckBox mIngredientCheckBox;
+    public @BindView(R.id.cb_ingredient) CheckBox mIngredientCheckBox;
 
     public IngredientViewHolder(@NonNull View itemView) {
         super(itemView);
 
-        mIngredientCheckBox = itemView.findViewById(R.id.cb_ingredient);
+        ButterKnife.bind(this, itemView);
 
     }
 

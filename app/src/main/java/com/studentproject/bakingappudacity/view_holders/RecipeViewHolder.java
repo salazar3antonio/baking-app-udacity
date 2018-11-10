@@ -7,13 +7,17 @@ import android.widget.TextView;
 
 import com.studentproject.bakingappudacity.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class RecipeViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView mRecipeName;
+    public @BindView(R.id.tv_recipe_name) TextView mRecipeName;
 
     public RecipeViewHolder(@NonNull View itemView) {
         super(itemView);
-        mRecipeName = itemView.findViewById(R.id.tv_recipe_name);
+
+        ButterKnife.bind(this, itemView);
 
     }
 
