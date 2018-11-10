@@ -13,9 +13,13 @@ import com.studentproject.bakingappudacity.adapters.StepAdapter;
 import com.studentproject.bakingappudacity.database.models.Recipe;
 import com.studentproject.bakingappudacity.database.models.Step;
 
+import static com.studentproject.bakingappudacity.RecipeDetailsFragment.*;
+import static com.studentproject.bakingappudacity.StepDetailsDialogFragment.*;
+
 public class RecipeDetailsActivity extends AppCompatActivity implements StepAdapter.OnStepClickListener {
 
     public static final String STEP_EXTRA = "step_id_extra";
+    public static final String STEP_DIALOG_EXTRA = "step_dialog_id_extra";
 
     private FragmentManager mFragmentManager;
 
@@ -63,17 +67,24 @@ public class RecipeDetailsActivity extends AppCompatActivity implements StepAdap
         bundle.putParcelable(STEP_EXTRA, step);
         stepDetailsFragment.setArguments(bundle);
 
+        StepDetailsDialogFragment stepDetailsDialogFragment = StepDetailsDialogFragment.newInstance();
+        Bundle bundle1 = new Bundle();
+        bundle1.putParcelable(STEP_DIALOG_EXTRA, step);
+        stepDetailsDialogFragment.setArguments(bundle1);
+
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
         if (mIsTwoPane) {
+            //two pane layout
             fragmentTransaction.replace(R.id.fl_step_container, stepDetailsFragment);
+           // fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         } else {
-            //this is where we will inflate the new StepDetailsFragment
-            fragmentTransaction.replace(R.id.fl_recipe_container, stepDetailsFragment);
+            //single pane layout
+            stepDetailsDialogFragment.setTargetFragment(getSupportFragmentManager().findFragmentByTag(RECIPE_DETAILS_FRAGMENT_TAG), 1);
+            stepDetailsDialogFragment.show(getSupportFragmentManager(), STEP_DETAILS_DIALOG_FRAGMENT_TAG);
         }
 
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
 
     }
 

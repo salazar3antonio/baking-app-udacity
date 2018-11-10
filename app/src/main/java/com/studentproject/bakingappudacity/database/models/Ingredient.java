@@ -3,25 +3,27 @@ package com.studentproject.bakingappudacity.database.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.DecimalFormat;
+
 public class Ingredient implements Parcelable {
 
-    private int quantity;
+    private double quantity;
     private String measure;
     private String ingredient;
 
-    public Ingredient(int quantity, String measure, String ingredient) {
+    public Ingredient(double quantity, String measure, String ingredient) {
         this.quantity = quantity;
         this.measure = measure;
         this.ingredient = ingredient;
     }
 
     public Ingredient(Parcel in) {
-        quantity = in.readInt();
+        quantity = in.readDouble();
         measure = in.readString();
         ingredient = in.readString();
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
@@ -47,11 +49,44 @@ public class Ingredient implements Parcelable {
 
     public String getFullIngredient() {
 
-        int quantity = getQuantity();
-        String measure = getMeasure();
-        String ingredient = getIngredient();
+        return getQuantity() + " " + convertMeasure(getMeasure(), getQuantity()) + " " + getIngredient();
 
-        return String.valueOf(quantity) + " " + measure + " " + ingredient;
+    }
+
+    private String convertMeasure(String measureCode, double quantity) {
+
+        String measureConverted = "";
+        String s = "s";
+
+        switch (measureCode) {
+            case "TSP":
+                measureConverted = "teaspoon";
+                break;
+            case "TBLSP":
+                measureConverted = "tablespoon";
+                break;
+            case "K":
+                measureConverted = "kilogram";
+                break;
+            case "CUP":
+                measureConverted = "cup";
+                break;
+            case "G":
+                measureConverted = "gram";
+                break;
+            case "OZ":
+                measureConverted = "ounce";
+                break;
+            case "UNIT":
+                measureConverted = "unit";
+                break;
+        }
+
+        if (quantity > 1) {
+            return measureConverted.concat(s);
+        }
+
+        return measureConverted;
 
 
     }
@@ -75,7 +110,7 @@ public class Ingredient implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(quantity);
+        dest.writeDouble(quantity);
         dest.writeString(measure);
         dest.writeString(ingredient);
     }

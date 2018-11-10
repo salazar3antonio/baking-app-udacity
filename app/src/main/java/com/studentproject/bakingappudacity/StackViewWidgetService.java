@@ -75,15 +75,19 @@ class StackViewsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFact
 
         Recipe recipe = mRecipes.get(position);
         List<Ingredient> ingredients = recipe.getIngredients();
-        String ingredientFullString;
 
         RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_recipe);
 
-        // TODO: 11/6/2018 insert all ingredients into Recipe Widget
+        StringBuilder stringBuilder = new StringBuilder();
+
         for (Ingredient ingredient : ingredients) {
             String ingredientFullIngredient = ingredient.getFullIngredient();
-            remoteViews.setTextViewText(R.id.tv_widget_ingredients, ingredientFullIngredient);
+            stringBuilder.append(ingredientFullIngredient + "\n");
         }
+
+        String fullIngredientList = stringBuilder.toString();
+
+        remoteViews.setTextViewText(R.id.tv_widget_ingredients, fullIngredientList);
         remoteViews.setTextViewText(R.id.tv_widget_recipe_name, recipe.getName());
 
         return remoteViews;

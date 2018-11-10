@@ -22,6 +22,8 @@ public class RecipeViewModel extends AndroidViewModel {
         super(application);
         // get instance of the DB
         RecipeDatabase recipeDatabase = RecipeDatabase.getsInstance(application.getApplicationContext());
+        //my quantities are being rounded. for instance Nutella Pie > Ingredient has 0.5 as a quantity, but when I query all Recipes, the Ingredient quantity comes out of the DB as 0.0.
+        //i'm storing double data types in the DB but fetching them is returning them rounded down :(
         allRecipes = recipeDatabase.recipeDao().allRecipesAsLiveData();
     }
 

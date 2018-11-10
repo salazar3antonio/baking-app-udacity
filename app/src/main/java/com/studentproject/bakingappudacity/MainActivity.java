@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.studentproject.bakingappudacity.database.RecipeDatabase;
@@ -54,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "No internet connection found.", Toast.LENGTH_LONG).show();
         }
 
-
     }
 
     public class RecipeAsyncTask extends AsyncTask<URL, Void, ArrayList<String>> {
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 recipes = JsonUtils.getRecipesFromJson(recipeJsonResults.get(0));
-            } catch (IOException | JSONException e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 

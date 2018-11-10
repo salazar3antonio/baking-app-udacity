@@ -18,7 +18,7 @@ public class JsonUtils {
 
     private static final String TAG = JsonUtils.class.getSimpleName();
 
-    public static List<Recipe> getRecipesFromJson(String jsonResponse) throws IOException, JSONException {
+    public static List<Recipe> getRecipesFromJson(String jsonResponse) throws JSONException {
 
         //instantiate a new List. This will store all of the Recipe Objects
         List<Recipe> recipes = new ArrayList<>();
@@ -77,7 +77,7 @@ public class JsonUtils {
             String videoUrl = ingredientObject.optString("videoURL");
             String thumbnailUrl = ingredientObject.optString("thumbnailURL");
 
-            Log.i(TAG, "Steps " + shortDescription);
+            //Log.i(TAG, "Steps " + shortDescription);
 
             Step step = new Step(id, shortDescription, description, videoUrl, thumbnailUrl);
 
@@ -98,13 +98,12 @@ public class JsonUtils {
 
             JSONObject ingredientObject = ingredientsArray.getJSONObject(i);
 
-            int quantity = ingredientObject.optInt("quantity");
+            double quantity = ingredientObject.optDouble("quantity");
             String measure = ingredientObject.optString("measure");
             String ingredientDescription = ingredientObject.optString("ingredient");
 
-            Log.i(TAG, "Ingredients " + ingredientDescription);
-
             Ingredient ingredient = new Ingredient(quantity, measure, ingredientDescription);
+            Log.i(TAG, "Ingredients " + ingredient.getQuantity());
 
             ingredients.add(ingredient);
 

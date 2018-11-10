@@ -1,5 +1,6 @@
 package com.studentproject.bakingappudacity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,7 +21,11 @@ import com.studentproject.bakingappudacity.database.models.Step;
 
 import java.util.List;
 
+import static com.studentproject.bakingappudacity.StepDetailsDialogFragment.*;
+
 public class RecipeDetailsFragment extends Fragment {
+
+    public static final String RECIPE_DETAILS_FRAGMENT_TAG = "recipe_details_fragment_tag";
 
     private Recipe mRecipe;
     private RecyclerView mStepsRecyclerView;
@@ -73,4 +78,18 @@ public class RecipeDetailsFragment extends Fragment {
         
         return recipeView;
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        Fragment stepDetailsDialogFragment = getFragmentManager().findFragmentByTag(STEP_DETAILS_DIALOG_FRAGMENT_TAG);
+
+        //this attaches the AddTagsToArticleFragment upon a config change
+        if (stepDetailsDialogFragment != null) {
+            stepDetailsDialogFragment.setTargetFragment(this, 1);
+        }
+
+    }
+
 }

@@ -9,11 +9,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.studentproject.bakingappudacity.adapters.RecipeAdapter;
+import com.studentproject.bakingappudacity.database.models.Ingredient;
 import com.studentproject.bakingappudacity.database.models.Recipe;
 
 import java.util.List;

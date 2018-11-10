@@ -1,14 +1,12 @@
 package com.studentproject.bakingappudacity;
 
+import android.app.Dialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -28,10 +26,12 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.studentproject.bakingappudacity.database.models.Step;
 
-import static com.studentproject.bakingappudacity.RecipeDetailsActivity.*;
+import static com.studentproject.bakingappudacity.RecipeDetailsActivity.STEP_DIALOG_EXTRA;
+import static com.studentproject.bakingappudacity.RecipeDetailsActivity.STEP_EXTRA;
 
-public class StepDetailsFragment extends Fragment {
+public class StepDetailsDialogFragment extends DialogFragment {
 
+    public static final String STEP_DETAILS_DIALOG_FRAGMENT_TAG = "step_details_dialog_fragment_tag";
     private static final String CURRENT_PLAYER_POSITION = "current_player_position";
     public static final int CONTROLLER_SHOW_TIMEOUT_MILIS = 1000;
 
@@ -43,15 +43,14 @@ public class StepDetailsFragment extends Fragment {
     private SimpleExoPlayerView mExoPlayerView;
     private long mCurrentPlayerPosition;
 
-    public static StepDetailsFragment newInstance() {
+    public static StepDetailsDialogFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        StepDetailsFragment fragment = new StepDetailsFragment();
+        StepDetailsDialogFragment fragment = new StepDetailsDialogFragment();
         fragment.setArguments(args);
         return fragment;
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,7 +59,7 @@ public class StepDetailsFragment extends Fragment {
         savedInstanceState = getArguments();
 
         if (savedInstanceState != null) {
-            mStep = savedInstanceState.getParcelable(STEP_EXTRA);
+            mStep = savedInstanceState.getParcelable(STEP_DIALOG_EXTRA);
             mCurrentPlayerPosition = savedInstanceState.getLong(CURRENT_PLAYER_POSITION);
         }
 
@@ -84,6 +83,16 @@ public class StepDetailsFragment extends Fragment {
         mStepDesc.setText(mStep.getDescription());
 
         return stepView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
     }
 
 
@@ -129,5 +138,7 @@ public class StepDetailsFragment extends Fragment {
             mExoPlayer.release();
         }
     }
+
+
 
 }
